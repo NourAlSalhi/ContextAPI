@@ -2,13 +2,15 @@ import React, { createContext, useReducer, useMemo } from "react";
 
 //initil state
 export const initialState = {
-    userData: null
+    userData: null,
+    paymentOptions:[],
 };
 
 //actions
 // const CACHE_USER_DATA = "CACHE_USER_DATA";
-const ACTIONS = {
-    CACHE_USER_DATA: "CACHE_USER_DATA"
+export const ACTIONS = {
+    CACHE_USER_DATA: "CACHE_USER_DATA",
+    CACHE_PAYMENT_OPTIONS: "CACHE_PAYMENT_OPTIONS",
 };
 const Reducer = (globelState, action) => {
     switch (action.type) {
@@ -28,6 +30,7 @@ const GlobelState = ({ children, defaultInitialState = {} }) => {
     defaultInitialState = { ...initialState, ...defaultInitialState };
 
     const [globelState, dispatch] = useReducer(Reducer, defaultInitialState);
+
     const logoutUser = () =>{
         localStorage.clear();
         return true;
@@ -40,14 +43,15 @@ const GlobelState = ({ children, defaultInitialState = {} }) => {
             logoutUser
         };
     }, [globelState]);
+
     return (
-        <GlobelContext.Provider value={contextValue}>
+        <GlobalContext.Provider value={contextValue}>
             {children}
-        </GlobelContext.Provider>
+        </GlobalContext.Provider>
     );
 };
 
 //create globel context
-export const GlobelContext = createContext(initialState);
+export const GlobalContext = createContext(initialState);
 // export  globel context  component
 export default GlobelState;
